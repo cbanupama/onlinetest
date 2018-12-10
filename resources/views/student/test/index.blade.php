@@ -5,25 +5,25 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Test Questions</div>
+                    <div class="card-header">Your tests</div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Test ID</th>
-                                <th>Question</th>
-                                <th>Options</th>
+                                <th>Test Name</th>
+                                <th>Subject</th>
+                                <th>Duration</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($testQuestions as $testQuestion)
+                            @foreach($myTests as $myTest)
                                 <tr>
-                                    <td>{{ $testQuestion->test->id }}</td>
-                                    <td>{{ $testQuestion->question->question }}</td>
+                                    <td>{{ $myTest->test->name }}</td>
+                                    <td>{{ $myTest->test->subject->name }}</td>
+                                    <td>{{ $myTest->test->duration }} Min</td>
                                     <td>
-                                        @foreach($testQuestion->question->options as $option)
-                                            <span class="{{ $option->is_answer ? 'bg-success': '' }}">{{ $option->option }}</span> <br>
-                                        @endforeach
+                                        <a href="{{ route('answer.create', ['test_id' => $myTest->test->id]) }}" class="btn btn-sm btn-success">Give Test</a>
                                     </td>
                                 </tr>
                             @endforeach

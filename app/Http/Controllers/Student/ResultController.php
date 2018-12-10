@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Student;
 
-use App\Student;
-use App\Test;
 use App\TestStudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class TestStudentController extends Controller
+class ResultController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,12 @@ class TestStudentController extends Controller
      */
     public function index()
     {
-        $testStudents = TestStudent::all();
-        return view('admin.teststudent.index', compact('testStudents'));
+        $myTests = TestStudent::query()
+            ->where('student_id', Auth::user()->student->id)
+            ->where('is_active', false)
+            ->get();
+
+        return view('student.result.index', compact('myTests'));
     }
 
     /**
@@ -28,40 +31,24 @@ class TestStudentController extends Controller
      */
     public function create()
     {
-        $tests = Test::all();
-        $students = Student::orderBy('class')->get();
-        return view('admin.teststudent.create', compact('tests', 'students'));
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'test_id'    => 'required|exists:tests,id',
-            'students'   => 'required',
-            'students.*' => 'exists:students,id'
-        ]);
-
-        foreach ($request->get('students') as $student) {
-            TestStudent::create([
-                'test_id'    => $request->get('test_id'),
-                'student_id' => $student,
-                'is_active'  => true
-            ]);
-        }
-
-        return redirect()->route('test-student.index');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -72,7 +59,7 @@ class TestStudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -83,8 +70,8 @@ class TestStudentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -95,7 +82,7 @@ class TestStudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

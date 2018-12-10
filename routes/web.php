@@ -24,6 +24,11 @@ Route::namespace('Admin')->middleware('role:admin|teacher')->group(function () {
 });
 
 // Student routes
+Route::prefix('student')->namespace('Student')->middleware('role:student')->group(function () {
+    Route::resource('mytest', 'TestController');
+    Route::resource('answer', 'AnswerController');
+    Route::resource('result', 'ResultController');
+});
 
 
 // One time setup only

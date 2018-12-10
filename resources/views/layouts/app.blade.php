@@ -38,11 +38,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
-                        @role('admin')
+                        @hasanyrole('admin|teacher')
                             @include('layouts.navs.admin')
-                        @endrole
-                        @role('teacher')
-                            @include('layouts.navs.teacher')
                         @endrole
                         @role('student')
                             @include('layouts.navs.student')

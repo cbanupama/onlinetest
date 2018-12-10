@@ -39,4 +39,19 @@ class Test extends Model
     {
         return $this->belongsTo(TestType::class);
     }
+
+    /**
+     * Get all test questions
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getQuestionsAttribute()
+    {
+        $questions = collect();
+        $testQuestions = TestQuestion::where('test_id', $this->id)->get();
+        foreach ($testQuestions as $testQuestion) {
+            $questions->push($testQuestion->question);
+        }
+        return $questions;
+    }
 }

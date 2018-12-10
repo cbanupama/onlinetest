@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Student;
 
 use App\Student;
-use App\Test;
 use App\TestStudent;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class TestStudentController extends Controller
+class TestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,12 @@ class TestStudentController extends Controller
      */
     public function index()
     {
-        $testStudents = TestStudent::all();
-        return view('admin.teststudent.index', compact('testStudents'));
+        $myTests = TestStudent::query()
+            ->where('student_id', Auth::user()->student->id)
+            ->where('is_active', true)
+            ->get();
+
+        return view('student.test.index', compact('myTests'));
     }
 
     /**
@@ -28,9 +33,7 @@ class TestStudentController extends Controller
      */
     public function create()
     {
-        $tests = Test::all();
-        $students = Student::orderBy('class')->get();
-        return view('admin.teststudent.create', compact('tests', 'students'));
+        //
     }
 
     /**
@@ -41,21 +44,7 @@ class TestStudentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'test_id'    => 'required|exists:tests,id',
-            'students'   => 'required',
-            'students.*' => 'exists:students,id'
-        ]);
-
-        foreach ($request->get('students') as $student) {
-            TestStudent::create([
-                'test_id'    => $request->get('test_id'),
-                'student_id' => $student,
-                'is_active'  => true
-            ]);
-        }
-
-        return redirect()->route('test-student.index');
+        //
     }
 
     /**

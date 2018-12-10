@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Student;
 
-use App\Student;
 use App\Test;
-use App\TestStudent;
+use App\TestAnswer;
+use App\TestQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
-class TestStudentController extends Controller
+class AnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +19,7 @@ class TestStudentController extends Controller
      */
     public function index()
     {
-        $testStudents = TestStudent::all();
-        return view('admin.teststudent.index', compact('testStudents'));
+        //
     }
 
     /**
@@ -28,9 +29,9 @@ class TestStudentController extends Controller
      */
     public function create()
     {
-        $tests = Test::all();
-        $students = Student::orderBy('class')->get();
-        return view('admin.teststudent.create', compact('tests', 'students'));
+        $test = Test::findOrFail(Input::get('test_id'));
+        $questions = $test->questions;
+        return view('student.answer.create', compact('questions', 'test'));
     }
 
     /**
@@ -41,21 +42,22 @@ class TestStudentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'test_id'    => 'required|exists:tests,id',
-            'students'   => 'required',
-            'students.*' => 'exists:students,id'
-        ]);
+        $test = Test::findOrFail($request->get('test_id'));
 
-        foreach ($request->get('students') as $student) {
-            TestStudent::create([
-                'test_id'    => $request->get('test_id'),
-                'student_id' => $student,
-                'is_active'  => true
+        foreach ($test->questions as $question) {
+            TestAnswer::create([
+                'student_id'         => Auth::user()->student->id,
+                'test_id'            => $test->id,
+                'question_id'        => $question->id,
+                'question_option_id' => $request->get($question->id)
             ]);
         }
 
-        return redirect()->route('test-student.index');
+        $testStudent = TestStudent::where('test_id', $test->id)->where('student_id', Auth::user()->student->id)->first();
+        $testStudent->is_active = false;
+        $testStudent->save();
+
+        return redirect()->route('mytest.index');
     }
 
     /**
