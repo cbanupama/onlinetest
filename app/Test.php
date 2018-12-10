@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Test extends Model
 {
@@ -53,5 +54,29 @@ class Test extends Model
             $questions->push($testQuestion->question);
         }
         return $questions;
+    }
+
+    /**
+     * Find test score for the user
+     *
+     * @return int
+     */
+    public function getScoreAttribute()
+    {
+        $score = 0;
+
+        $answers = TestAnswer::query()
+            ->where('student_id', Auth::user()->student->id)
+            ->where('test_id', $this->id)
+            ->get();
+
+        foreach ($this->questions as $question) {
+            $answer = $answers->where('question_id', $question->id)->first();
+            if($answer->question_option_id === $question->answer->id) {
+                $score++;
+            }
+        }
+
+        return $score;
     }
 }

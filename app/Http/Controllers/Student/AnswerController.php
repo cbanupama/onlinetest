@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Test;
 use App\TestAnswer;
 use App\TestQuestion;
+use App\TestStudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -53,10 +54,13 @@ class AnswerController extends Controller
             ]);
         }
 
-        $testStudent = TestStudent::where('test_id', $test->id)->where('student_id', Auth::user()->student->id)->first();
+        $testStudent = TestStudent::query()
+            ->where('test_id', $test->id)
+            ->where('student_id', Auth::user()->student->id)
+            ->first();
+
         $testStudent->is_active = false;
         $testStudent->save();
-
         return redirect()->route('mytest.index');
     }
 

@@ -21,12 +21,12 @@ class Question extends Model
     }
 
     /**
-     * Get the right answer to question
+     * Get answer for this question
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return mixed
      */
-    public function getAnswerAttribute(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function getAnswerAttribute()
     {
-        return $this->hasOne(QuestionOption::class)->where('is_answer', true);
+        return $this->options->where('is_answer', true)->first();
     }
 }

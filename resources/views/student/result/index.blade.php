@@ -21,9 +21,10 @@
                                 <tr>
                                     <td>{{ $myTest->test->name }}</td>
                                     <td>{{ $myTest->test->subject->name }}</td>
-                                    <td>{{ $myTest->test->duration }} Min</td>
+                                    <td>{{ $myTest->test->score }}</td>
                                     <td>
-                                        <a href="{{ route('result.show', $myTest->id) }}" class="btn btn-sm btn-warning">Show results</a>
+                                        <a href="{{ route('result.show', $myTest->test_id) }}"
+                                           class="btn btn-sm btn-warning">Show results</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -19,4 +19,14 @@ class Student extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Has answers
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function testAnswer(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TestAnswer::class);
+    }
 }

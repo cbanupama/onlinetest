@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Test;
+use App\TestAnswer;
 use App\TestStudent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -53,7 +55,14 @@ class ResultController extends Controller
      */
     public function show($id)
     {
-        //
+        $test = Test::findOrFail($id);
+        $questions = $test->questions;
+        $answers = TestAnswer::query()
+            ->where('test_id', $test->id)
+            ->where('student_id', Auth::user()->student->id)
+            ->get();
+
+
     }
 
     /**
