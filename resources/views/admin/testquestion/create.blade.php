@@ -8,24 +8,21 @@
                     <div class="card-header">{{ __('Add Questions to Test') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('add-question.store') }}">
+                        <form method="POST" action="{{ route('test-question.store') }}">
                             @csrf
 
                             <input type="hidden" name="test_id" value="{{ $test->id }}">
 
                             <div class="form-group row">
                                 <label for="questions"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Hold ctrl to select multiple') }}</label>
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Select questions') }}</label>
 
                                 <div class="col-md-6">
-                                    <select name="questions[]" multiple id="questions">
-                                        <option value="">Select questions</option>
+                                    <select class="form-control" name="questions[]" multiple id="questions">
                                         @foreach($questions as $question)
+                                            <option value="{{ $question->id }}">{{ $question->question }}</option>
                                         @endforeach
                                     </select>
-                                    <input id="name" type="text"
-                                           class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                           name="name" value="{{ old('name') }}" required autofocus>
 
                                     @if ($errors->has('questions'))
                                         <span class="invalid-feedback" role="alert">
@@ -38,7 +35,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Add Question') }}
+                                        {{ __('Add Questions') }}
                                     </button>
                                 </div>
                             </div>

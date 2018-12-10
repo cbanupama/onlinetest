@@ -61,8 +61,7 @@ class TestController extends Controller
             'duration'     => $request->get('duration')
         ]);
 
-        $questions = Question::where('subject_id', $request->get('subject_id'))->get();
-        return view('admin.testquestion.create', compact('test', 'questions'));
+        return redirect()->route('test-question.create', ['test' => $test]);
     }
 
     /**
