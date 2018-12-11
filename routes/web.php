@@ -14,11 +14,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('role:admin')->group(func
     Route::resource('subject', 'SubjectController');
     Route::resource('test-type', 'TestTypeController');
     Route::resource('test', 'TestController');
-    Route::resource('test-question', 'TestQuestionController');
 });
 
 // Teacher routes
-Route::namespace('Admin')->middleware('role:admin|teacher')->group(function () {
+Route::namespace('Admin')->middleware('role:teacher')->group(function () {
     Route::resource('question', 'QuestionController');
     Route::resource('test-student', 'TestStudentController');
 });
