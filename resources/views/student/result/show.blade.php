@@ -29,9 +29,13 @@
                                 <div>
                                     @foreach($question->options as $option)
                                         <div class="form-check pl-5">
-                                            <p class="lead {{$answers->where('question_id', $question->id)->first()->question_option_id === $option->id ? 'text-success': 'text-danger' }}">
-                                                {{ $option->option }}
-                                            </p>
+                                            @if($answers->where('question_id', $question->id)->first()->question_option_id !== $question->answer->id && $answers->where('question_id', $question->id)->first()->question_option_id === $option->id)
+                                                <strike class="text-danger">{{ $option->option }}</strike>
+                                            @elseif($question->answer->id === $option->id)
+                                                <span class="text-success">{{ $option->option }}</span>
+                                            @else
+                                                <span>{{ $option->option }}</span>
+                                            @endif
                                         </div>
                                     @endforeach
                                 </div>
