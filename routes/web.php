@@ -14,6 +14,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('role:admin')->group(func
     Route::resource('subject', 'SubjectController');
     Route::resource('test-type', 'TestTypeController');
     Route::resource('test', 'TestController');
+    Route::resource('test-question', 'TestQuestionController');
 });
 
 // Teacher routes

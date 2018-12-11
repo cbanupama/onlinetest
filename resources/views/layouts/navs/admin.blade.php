@@ -21,7 +21,7 @@
     </div>
 </li>
 @endrole
-@hasanyrole('admin|teacher')
+@hasanyrole('teacher')
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" id="questionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Questions
