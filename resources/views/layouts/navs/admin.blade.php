@@ -5,6 +5,15 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('role.index') }}">{{ __('Roles') }}</a>
 </li>
+<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="subjectDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Subjects
+        </a>
+        <div class="dropdown-menu" aria-labelledby="subjectDropdown">
+            <a class="dropdown-item" href="{{ route('subject.index') }}">All</a>
+            <a class="dropdown-item" href="{{ route('subject.create') }}">Create</a>
+        </div>
+    </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ route('student.index') }}">{{ __('Students') }}</a>
 </li>
@@ -21,7 +30,7 @@
     </div>
 </li>
 @endrole
-@hasanyrole('teacher')
+@role('teacher')
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" role="button" id="questionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Questions

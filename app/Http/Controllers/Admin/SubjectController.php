@@ -26,9 +26,8 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.subject.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -37,7 +36,16 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:subjects,name'
+        ]);
+
+        Subject::create([
+            'name'    => $request->get('name'),
+            'slug'  => str_slug($request->get('name')),
+        ]);
+
+        return redirect()->route('subject.index');
     }
 
     /**
